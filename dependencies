@@ -1,0 +1,20 @@
+Modules:
+python/python-anaconda3.6.5
+R/3.5.1
+
+Python packages:
+import os
+import argparse
+import regex as re
+from ete3 import Tree
+import gzip
+import tarfile
+import shutil
+from scipy import stats
+from numpy import var
+from numpy import percentile
+import subprocess
+
+R packages:
+require(phytools)
+require(phangorn)
