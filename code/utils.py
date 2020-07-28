@@ -1,51 +1,4 @@
 from defs import *
-import gzip
-import tarfile
-import shutil
-
-
-def targz_dir(outer_dir, dirs_list, dest_zip_filename, delete_after_zipping):
-    """
-    Compress data from multiple directories to a single .targz file
-    :param outer_dir: where the output file should be written to
-    :param dirs_list: the directories names to be compressed
-    :param dest_zip_filename: name of output file
-    :param delete_after_zipping: True or False
-    :return: NA
-    """
-    cwd = os.getcwd()
-    os.chdir(outer_dir)
-    tarw = tarfile.open(dest_zip_filename, "w:gz")
-    for dirname in dirs_list:
-        if os.path.exists(dirname):
-            tarw.add(dirname)
-    tarw.close()
-    if delete_after_zipping:
-        for dirname in dirs_list:
-            try:
-                shutil.rmtree(dirname)
-            except Exception as e1:
-                print(e1)
-                pass
-    os.chdir(cwd)
-
-
-def untargz(zip_file_dest, delete_after_extracting=False):
-    """
-    De-compress file
-    :param zip_file_dest: where to unpack the zipped file
-    :param delete_after_extracting: True or False
-    :return: NA
-    """
-    dirpath, zip_filename = os.path.split(zip_file_dest)
-    cwd = os.getcwd()
-    os.chdir(dirpath)
-    tarx = tarfile.open(zip_file_dest, "r:gz")
-    tarx.extractall(dirpath)
-    tarx.close()
-    os.chdir(cwd)
-    if delete_after_extracting:
-        os.remove(zip_file_dest)
 
 
 def average(lst):
@@ -144,26 +97,6 @@ def get_max_transition(tree_file):
     return max_transition
 
 
-def copy_files(src, dest, files=None):
-    """
-    copy all files from source directory to destination directory. Used when re-running BASE NUM models, to keep previous results
-    :param src: source directory
-    :param dest: destination directory
-    :param files: a list of specific files to be copied
-    :return: NA
-    """
-    src_files = os.listdir(src)
-    if not os.path.exists(dest):
-        os.system("mkdir " + dest)
-    if files is not None:
-        src_files = files
-    for file_name in src_files:
-        full_src_file_name = src + file_name
-        full_dest_file_name = dest + file_name
-        if os.path.isfile(full_src_file_name):
-            shutil.copy(full_src_file_name, full_dest_file_name)
-
-
 def extract_line_from_file(filename, str_search, num=False, integer=False):
     """
     uses regular expression to search a string in a file
@@ -187,17 +120,6 @@ def extract_line_from_file(filename, str_search, num=False, integer=False):
                 if tmp:
                     return True
         return False
-
-
-def n_folders_lst(n):
-    """
-    used to targz all simulations to a single file
-    :return: list with names of folders from 0 to n
-    """
-    lst = []
-    for i in range(n):
-        lst.append(str(i))
-    return lst
 
 
 def print_error(msg, exception="", sep="*****"):

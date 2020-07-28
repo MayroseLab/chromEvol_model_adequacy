@@ -1,11 +1,8 @@
-import os
-import regex as re
-import argparse
+import os, re, argparse
 from ete3 import Tree
 
 #  fixed names
 log = "/log.txt"
-CE_res_filename = "/chromEvol.res"
 mlAncTree = "/mlAncestors.tree"
 posterior_tree = "/posteriorAncestors.tree"
 exp_tree = "/exp.tree"
@@ -17,8 +14,8 @@ root_freq_filename = "/root_freq"
 sim_control = "/param_sim"
 adequacy_vec = "/adequacy_vec"
 
-R_path = "unset R_HOME; Rscript"  # PLACE YOUR R EXECUTABLE FULL PATH HERE
-chromevol_path = "chromEvol"  # PLACE YOUR CHROMEVOL EXECUTABLE FULL PATH HERE
+R_path = r"<YOUR_PATH_HERE>\Rscript.exe"
+chromevol_path = r"<YOUR_PATH_HERE>\chromevol.exe"
 
 nsims = None
 

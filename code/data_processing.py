@@ -231,13 +231,18 @@ def check_upper_bound(ma_output_dir, working_dir, max_for_sim, m):
     :param m: multiplication factor
     :return: did simulations reach upper bound? True or False
     """
-    cmd = "grep -R --include='simEvents.txt' 'Total number of transitions to max chromosome: [^0]' " + ma_output_dir
-    tmp = os.system(cmd)
-    with open(working_dir + "/increasing_max_chr.txt", "w") as fh:
-        fh.write("Iteration number " + str(m+1) + ", max number is currently " + str(max_for_sim))
-    if tmp != 0:  # did not hit upper bound
-        return True
-    return False
+    # cmd = "grep -R --include='simEvents.txt' 'Total number of transitions to max chromosome: [^0]' " + ma_output_dir
+    # tmp = os.system(cmd)
+    sims_dirs = [x[0] for x in os.walk(ma_output_dir)]
+    for i in range(1, len(sims_dirs)):
+        sim_events_file = sims_dirs[i] + "/simEvents.txt"
+        tmp = extract_line_from_file(sim_events_file, "Total number of transitions to max chromosome", True, True)
+        if tmp:
+            if tmp > 0:
+                with open(working_dir + "/increasing_max_chr.txt", "w") as fh:
+                    fh.write("Iteration number " + str(m+1) + ", max number is currently " + str(max_for_sim))
+                return False
+    return True
 
 
 def run_simulations(results_file, ma_output_dir, orig_counts, tree_path, freq_file, params_dict, user_out_dir):
@@ -363,8 +368,6 @@ def second_run(params_dict, results_path, counts_file, tree_file):
     res = test_max_on_tree(params_dict.get("_baseNumber"), counts_file, results_path + tree_with_counts)
     if isinstance(res, list):  # need to re-run chromEvol with updated parameters
         create_control_file_second_run(results_path + "/second_run.params", results_path, counts_file, tree_file, params_dict.get("_duplConstR"), res[0], res[1])
-        #copy_files(results_path, results_path + "/init_run/", files=[CE_res_filename, mlAncTree, log, posterior_tree, exp_tree, anc_prob])
-        #targz_dir(results_path, ["/init_run/"], "init_run.zipped.tar.gz", True)
         print("\nRunning another chromEvol optimization run\n")
         os.system('"' + chromevol_path + '" ' + results_path + "/second_run.params")
     open(results_path + "/second_run_tested", 'a').close()

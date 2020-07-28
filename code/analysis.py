@@ -121,7 +121,7 @@ def acctran(tree_file, num_iter=1, sims_dir=0):
         script = os.path.dirname(os.path.realpath(__file__)) + "/calculate_acctran.R"
         arg = tree_file + " " + str(num_iter) + " " + sims_dir
         cmd = R_path + " " + script + " " + arg
-        res = subprocess.Popen(cmd, shell=True, cwd=None, stdout=subprocess.PIPE, stderr=subprocess.PIPE, encoding="utf-8")
+        res = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, encoding="utf-8")
         out, err = res.communicate()
         if out == "":
             return None
@@ -230,8 +230,6 @@ def remove_none_from_stats(orig_lst, sim_lst):
     return orig_lst, sim_lst, statistics_names
 
 
-
-
 def test_adequacy(sim_stats, orig_stats, out_dir, percentiles_limits_file, true_percentiles_file, stats_dist_file, adequacy_vec_file):
     """
     calculates percentiles over simulated distributions per statistic.
@@ -254,7 +252,9 @@ def test_adequacy(sim_stats, orig_stats, out_dir, percentiles_limits_file, true_
         x = stats.percentileofscore(sim_stat_dist, orig_stats[i], kind="mean")
         true_percentiles.append(x)
         handle_distributions(sim_stat_dist, out_dir, stats_dist_file)
+    print(statistics_names)
     write_output_files(out_dir, [true_percentiles_file, adequacy_vec_file], [true_percentiles, adequacy_lst])
+    write_final_result(out_dir, adequacy_lst, statistics_names)
 
 
 def write_output_files(out_dir, filenames_list, vecs_list):
@@ -268,6 +268,20 @@ def write_output_files(out_dir, filenames_list, vecs_list):
     for i in range(len(filenames_list)):
         with open(out_dir + filenames_list[i], "w") as fh:
             fh.write(str(vecs_list[i])[1:-1:])
+
+
+def write_final_result(out_dir, adequacy_lst, statistics_names):
+    """
+    writes the final output of the model adequacy framework.
+    :param out_dir: output directory provided by the user
+    :param adequacy_lst: vector of 0/1 denoting each statistics adequacy
+    :param statistics_names: statistics names
+    :return: NA
+    """
+    suffix = {0:"Inadequate", 1:"Adequate"}
+    with open(out_dir + "final_results", "w") as fh:
+        for i in range(len(adequacy_lst)):
+            fh.write(statistics_names[i] + " is " + suffix[adequacy_lst[i]] + "\n")
 
 
 def handle_distributions(dist, out_dir, stats_dist_file):
@@ -293,6 +307,5 @@ def model_adequacy(ma_output_dir, orig_counts_stats, user_out_dir, empirical_sta
     :return: NA
     """
     sim_dist = create_simulated_stats_distribution(ma_output_dir, user_out_dir, empirical_stats)
-    test_adequacy(sim_dist, orig_counts_stats, ma_output_dir, "percentiles_limits", "true_percentiles", "stats_dist_sims", "adequacy_vec")
-    n_of_folders = n_folders_lst(get_nsims())
-    targz_dir(ma_output_dir, n_of_folders, "zipped.tar.gz", True)
+    test_adequacy(sim_dist, orig_counts_stats, user_out_dir, "percentiles_limits", "true_percentiles", "stats_dist_sims", "adequacy_vec")
+
