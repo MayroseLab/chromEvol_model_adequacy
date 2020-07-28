@@ -1,20 +1,10 @@
 Modules:
-python/python-anaconda3.6.5
-R/3.5.1
+python/python-anaconda3.6.5 and newer
+R/3.5.1 and newer
+chromEvol.exe
 
 Python packages:
-import os
-import argparse
-import regex as re
-from ete3 import Tree
-import gzip
-import tarfile
-import shutil
-from scipy import stats
-from numpy import var
-from numpy import percentile
-import subprocess
+os, argparse, re, ete3, scipy, numpy, subprocess
 
 R packages:
-require(phytools)
-require(phangorn)
+phytools, phangorn

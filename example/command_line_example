@@ -1,1 +1,1 @@
-python ~/main.py -c ~/example/counts -t ~/example/tree -r ~/example/chromevol_res -out ~/example/ -n 1000 -ce ~/example/chromEvol
+python ~/main.py -c ~/example/counts -t ~/example/tree -r ~/example/chromEvol.res -out ~/example/ -n 1000
