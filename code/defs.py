@@ -14,8 +14,8 @@ root_freq_filename = "/root_freq"
 sim_control = "/param_sim"
 adequacy_vec = "/adequacy_vec"
 
-R_path = r"<YOUR_PATH_HERE>\Rscript.exe"
-chromevol_path = r"<YOUR_PATH_HERE>\chromevol.exe"
+R_path = r"<YOUR_PATH_HERE>\Rscript.exe"  # PLACE YOUR R EXECUTABLE FULL PATH HERE
+chromevol_path = r"<YOUR_PATH_HERE>\chromevol.exe"  # PLACE YOUR CHROMEVOL EXECUTABLE FULL PATH HERE
 
 nsims = None
 
