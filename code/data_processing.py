@@ -231,8 +231,6 @@ def check_upper_bound(ma_output_dir, working_dir, max_for_sim, m):
     :param m: multiplication factor
     :return: did simulations reach upper bound? True or False
     """
-    # cmd = "grep -R --include='simEvents.txt' 'Total number of transitions to max chromosome: [^0]' " + ma_output_dir
-    # tmp = os.system(cmd)
     sims_dirs = [x[0] for x in os.walk(ma_output_dir)]
     for i in range(1, len(sims_dirs)):
         sim_events_file = sims_dirs[i] + "/simEvents.txt"

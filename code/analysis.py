@@ -252,7 +252,6 @@ def test_adequacy(sim_stats, orig_stats, out_dir, percentiles_limits_file, true_
         x = stats.percentileofscore(sim_stat_dist, orig_stats[i], kind="mean")
         true_percentiles.append(x)
         handle_distributions(sim_stat_dist, out_dir, stats_dist_file)
-    print(statistics_names)
     write_output_files(out_dir, [true_percentiles_file, adequacy_vec_file], [true_percentiles, adequacy_lst])
     write_final_result(out_dir, adequacy_lst, statistics_names)
 
