@@ -25,7 +25,7 @@ Output files include:
 2. Python modules: os, argparse, re, ete3, scipy, numpy, subprocess.
 3. R-3.5.1 or newer.
 4. R packages: phytools, phangorn.
-5. chromEvol: download from [here](https://www.tau.ac.il/~itaymay/cp/chromEvol/chromEvol) or extract from the downloaded chromEvol_model_adequacy repository (located inside the chromEvol folder). Make sure after download or extraction to add the file extension **.ext** to the *chromEvol* file.
+5. chromEvol: download chromEvol from chromEvol_model_adequacy repository located inside the chromEvol folder, for Linux. If you wish to run Model adequacy for chromEvol on Windows, download chromEvol souce from [here](https://www.tau.ac.il/~itaymay/cp/chromEvol/downloads.html) and follow the compilation instructions [here](https://www.tau.ac.il/~itaymay/cp/chromEvol/chromEvol_v2.0_manual.pdf).
 
 # Installation
 1. Download all scripts of [chromEvol model adequacy](https://github.com/MayroseLab/chromEvol_model_adequacy) to the same directory.
