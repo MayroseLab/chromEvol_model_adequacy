@@ -3,7 +3,6 @@ from utils import *
 from data_processing import *
 from scipy import stats
 from numpy import var
-from numpy import percentile
 import subprocess
 
 
@@ -192,34 +191,6 @@ def create_simulated_stats_distribution(out_dir, user_out_dir, empirical_stats):
     return simulated_counts_stats_dist
 
 
-def stat_star(vec, perc):
-    """
-    calculated the desired percentile of a distribution
-    :param vec: vector to calculate the percentile from
-    :param perc: which percentile to calculate
-    :return: result of percentile
-    """
-    return percentile(vec, perc)
-
-
-def is_adequate(dist, s, out_dir, percentiles_limits_file):
-    """
-    is the tested statistic adequate?
-    :param dist: distribution
-    :param s: original statistic to compare
-    :param out_dir: where to write results to
-    :param percentiles_limits_file: the calculated percentiles
-    :return: 0 or 1 - inadequate or adequate
-    """
-    lower = stat_star(dist, 2.6)  # > 97.4
-    upper = stat_star(dist, 97.4)  # < 2.6
-    with open(out_dir + percentiles_limits_file, "a") as percentiles:
-        percentiles.write(str(round(lower, 4)) + "," + str(round(upper, 4)) + "\n")
-    if s > upper or s < lower:
-        return 0
-    return 1
-
-
 def remove_none_from_stats(orig_lst, sim_lst):
     statistics_names = ["Variance", "Entropy", "Parsimony", "Time_parsimony"]
     none_ind = [i for i, val in enumerate(orig_lst) if val == None]
@@ -230,43 +201,48 @@ def remove_none_from_stats(orig_lst, sim_lst):
     return orig_lst, sim_lst, statistics_names
 
 
-def test_adequacy(sim_stats, orig_stats, out_dir, percentiles_limits_file, true_percentiles_file, stats_dist_file, adequacy_vec_file):
+def two_sided_midpoint_PV(dist, s, out_dir, PVs_file):
     """
-    calculates percentiles over simulated distributions per statistic.
-    print the percentiles' limits per statistics and true percentiles to output files
+    two-sided midpoint PV - Hohna et al. 2017
+    :param dist: simulated distributions
+    :param s: current original statistic to compare
+    :param out_dir: where to write results to
+    :param PVs_file: the calculated two-sided midpoint p-values
+    :return: 0 or 1 - inadequate or adequate
+    """
+    sim_is_lower = len([x for x in dist if x < s])  # V
+    sim_equals = len([x for x in dist if x == s])  # V
+    nsims = len(dist)
+    Pml = round((sim_is_lower / nsims) + (sim_equals / (2 * nsims)), 3)  # midpoint one-tailed lower p-value
+    Pmu = 1 - Pml
+    Pmt = 2 * min(Pml, Pmu)
+    with open(out_dir + PVs_file, "a") as p_vals:
+        p_vals.write(str(Pmt) + "\n")
+    if Pmt <= 0.05:
+        return 0
+    else:
+        return 1
+
+
+def test_adequacy(sim_stats, orig_stats, out_dir, pv_file, stats_dist_file):
+    """
+    calculates two-sided midpoint p-values over simulated distributions per statistic.
+    print the p-value per statistics to a separate file
     :param sim_stats: statistics distributions
     :param orig_stats: original statistics
     :param out_dir: simulations directory
-    :param percentiles_limits_file: output file to print the percentiles limit to
-    :param true_percentiles_file: output file to print the true percentiles to
+    :param pv_file: output file to print the p-values to
     :param stats_dist_file: output file to print the statistics distribution to
-    :param adequacy_vec_file: output file to print adequacy final vector to
     :return: NA
     """
-    adequacy_lst, true_percentiles = [], []
+    adequacy_lst = []
     orig_stats, sim_stats, statistics_names = remove_none_from_stats(orig_stats, sim_stats)
     for i in range(len(orig_stats)):
         sim_stat_dist = [x[i] for x in sim_stats]  # a single statistic distribution
-        model = is_adequate(sim_stat_dist, orig_stats[i], out_dir, percentiles_limits_file)
+        model = two_sided_midpoint_PV(sim_stat_dist, orig_stats[i], out_dir, pv_file)
         adequacy_lst.append(model)
-        x = stats.percentileofscore(sim_stat_dist, orig_stats[i], kind="mean")
-        true_percentiles.append(x)
         handle_distributions(sim_stat_dist, out_dir, stats_dist_file)
-    write_output_files(out_dir, [true_percentiles_file, adequacy_vec_file], [true_percentiles, adequacy_lst])
     write_final_result(out_dir, adequacy_lst, statistics_names)
-
-
-def write_output_files(out_dir, filenames_list, vecs_list):
-    """
-    prints outputs to files
-    :param out_dir: where to print the files to
-    :param filenames_list: filenames to be printed
-    :param vecs_list: each vector in each file, respectively
-    :return: NA
-    """
-    for i in range(len(filenames_list)):
-        with open(out_dir + filenames_list[i], "w") as fh:
-            fh.write(str(vecs_list[i])[1:-1:])
 
 
 def write_final_result(out_dir, adequacy_lst, statistics_names):
@@ -306,5 +282,5 @@ def model_adequacy(ma_output_dir, orig_counts_stats, user_out_dir, empirical_sta
     :return: NA
     """
     sim_dist = create_simulated_stats_distribution(ma_output_dir, user_out_dir, empirical_stats)
-    test_adequacy(sim_dist, orig_counts_stats, user_out_dir, "percentiles_limits", "true_percentiles", "stats_dist_sims", "adequacy_vec")
+    test_adequacy(sim_dist, orig_counts_stats, user_out_dir, "PVs", "stats_dist_sims")
 

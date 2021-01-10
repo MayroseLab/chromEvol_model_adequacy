@@ -15,7 +15,7 @@ def get_counts(filename):
             if line.startswith('>'):  # taxa name
                 continue
             else:
-                if line == "x":  # discard counts with x
+                if line=="x" or line=="X":  # discard counts with x
                     continue
                 counts.append(int(line))
     return counts
