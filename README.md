@@ -12,9 +12,6 @@ Output files include:
   - increasing_max_chr.txt: while simulating the upper bound was reached. Another iteration of simulations is running. 
   - orig_stats: empirical test statistics calculations.
   - stats_dist_sims: the distributions of each statistics, over *n* simulations.
-  - true_percentiles: the percentiles in which the empirical statistics fall within the distributions.
-  - percentiles_limits: the 2.5th and 97.5th percentiles per statistics.
-  - adequacy_vec: final adequacy vector, with 0 denoting for inadequacy, and 1 denoting for adequacy, per statistic, in the following order: variance, entropy, parisomony score, parsimony-time score.
 - A */simulations* directory is also created, which contains:
   - param_sim: simulations parameters (as extracted from the results file).
   - log.txt: log file for simulations.
