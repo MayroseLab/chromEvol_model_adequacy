@@ -21,7 +21,7 @@ Output files include:
 1. Python-3.6.5 or newer.
 2. Python modules: os, argparse, re, ete3, scipy, numpy, subprocess.
 3. R-3.5.1 or newer.
-4. R packages: phytools, phangorn.
+4. R packages: phytools, phangorn (version 2.7.0 and newer).
 5. chromEvol: download chromEvol from chromEvol_model_adequacy repository located inside the chromEvol folder, for Linux. If you wish to run Model adequacy for chromEvol on Windows, download chromEvol souce from [here](https://www.tau.ac.il/~itaymay/cp/chromEvol/downloads.html) and follow the compilation instructions [here](https://www.tau.ac.il/~itaymay/cp/chromEvol/chromEvol_v2.0_manual.pdf).
 
 # Installation
