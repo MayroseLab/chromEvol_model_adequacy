@@ -7,4 +7,4 @@ Python packages:
 os, argparse, re, ete3, scipy, numpy, subprocess
 
 R packages:
-phytools, phangorn
+phytools, phangorn (version 2.7.0 and newer)
