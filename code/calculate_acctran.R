@@ -1,6 +1,7 @@
 list.of.packages <- c("phytools", "phangorn")
 new.packages <- list.of.packages[!(list.of.packages %in% installed.packages()[,"Package"])]
 if(length(new.packages)) install.packages(new.packages, repos = "http://cran.us.r-project.org")
+if (packageVersion("phangorn") < "2.7.0") install.packages("phangorn", repos = "http://cran.us.r-project.org")
 
 library(phytools)
 library(phangorn)
