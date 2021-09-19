@@ -25,7 +25,7 @@ Output files include:
 5. chromEvol: download chromEvol from chromEvol_model_adequacy repository located inside the chromEvol folder, for Linux. If you wish to run Model adequacy for chromEvol on Windows, download chromEvol source from [here](https://www.tau.ac.il/~itaymay/cp/chromEvol/downloads.html) and follow the compilation instructions [here](https://www.tau.ac.il/~itaymay/cp/chromEvol/chromEvol_v2.0_manual.pdf).
 
 # Installation
-1. Download all scripts of [chromEvol model adequacy](https://github.com/MayroseLab/chromEvol_model_adequacy) to the same directory.
+1. Download all scripts of [chromEvol model adequacy](https://github.com/MayroseLab/chromEvol_model_adequacy/tree/master/code) to the same directory.
 2. Verify that you have the following paths or input files (see examples in the [example directory](https://github.com/MayroseLab/chromEvol_model_adequacy/tree/master/example)):
 - chromEvol executable path: chromevol_path = r"<YOUR_PATH>\chromevol.exe" (for exmplae: C:\Users\Downloads\chromevol.exe)
 - R executable path: R_path = r"<YOUR_PATH>\Rscript.exe" (for example: C:\Program Files\R\R-3.6.2\bin\Rscript.exe)
