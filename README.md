@@ -48,5 +48,7 @@ The output directory to which all relevant output files, as well as the simulati
 The number of simulations requested by the user. If not set by the user, the default is 1,000.
 
 # Runnign example:
-This can be downloaded from the [example](https://github.com/MayroseLab/chromEvol_model_adequacy/tree/master/example) folder.
-*python ~/main.py -c ~/example/counts -t ~/example/tree -r ~/example/chromEvol.res -out ~/example/ -n 1000*
+This can be downloaded from the [example](https://github.com/MayroseLab/chromEvol_model_adequacy/tree/master/example) folder. <br>
+```python
+python ~/main.py -c ~/example/counts -t ~/example/tree -r ~/example/chromEvol.res -out ~/example/ -n 1000
+```
