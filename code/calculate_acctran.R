@@ -23,7 +23,7 @@ fix_tree = function(tree_path){
 calculate_stat = function(tree){
 	counts = c()
 	
-	for (i in 1:(tree$Nnode+1)){
+	for (i in 1:(length(tree$tip.labels))){
 	  counts = c(counts, as.numeric(gsub("[^0-9]", "",  tree$tip.label[i])))
 	  tree$tip.label[i] = gsub('-[0-9]+', '', tree$tip.label[i])
 	}
